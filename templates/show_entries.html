@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block body %}
+{% for entry in entries %}
+<div class="card">
+    <div class="card-header">ID:{{entry._id}}</div>
+    <div class="card-body">
+        {% for tt in entry.text %}
+        <span class="">
+            <div id="{{entry._id}}-{{loop.index0}}" class="tag btn btn-sm {{ tag_color(entry.label[loop.index0]) }} {{ 'disabled' if entry.label[loop.index0] == tt }}" data-toggle="dropdown">
+                {{tt}}
+            </div>
+            <div class="dropdown-menu">
+                <a onclick="tagging(this);" class="dropdown-item {{ 'active' if entry.label[loop.index0] == 'B-NAME' }}">B-NAME</a>
+                <a onclick="tagging(this);" class="dropdown-item {{ 'active' if entry.label[loop.index0] == 'I-NAME' }}">I-NAME</a>
+                <a onclick="tagging(this);" class="dropdown-item {{ 'active' if entry.label[loop.index0] == 'B-PLACE' }}">B-PLACE</a>
+                <a onclick="tagging(this);" class="dropdown-item {{ 'active' if entry.label[loop.index0] == 'I-PLACE' }}">I-PLACE</a>
+                <a onclick="tagging(this);" class="dropdown-item {{ 'active' if entry.label[loop.index0] == 'B-TIME' }}">B-TIME</a>
+                <a onclick="tagging(this);" class="dropdown-item {{ 'active' if entry.label[loop.index0] == 'I-TIME' }}">I-TIME</a>
+                <a onclick="tagging(this);" class="dropdown-item {{ 'active' if entry.label[loop.index0] == 'B-INFO' }}">B-INFO</a>
+                <a onclick="tagging(this);" class="dropdown-item {{ 'active' if entry.label[loop.index0] == 'I-INFO' }}">I-INFO</a>
+                <a onclick="tagging(this);" class="dropdown-item {{ 'active' if entry.label[loop.index0] == 'O' }}">O</a>
+            </div>
+        </span>
+        {% endfor %}
+        <br />
+        <small class="card-text text-info timestamp">
+            {{ entry.timestamp }}
+        </small>
+    </div>
+</div>
+<br/>
+{% endfor %}
+{% endblock %}
