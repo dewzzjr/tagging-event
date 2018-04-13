@@ -61,9 +61,9 @@ import dateutil.parser
 class FirebaseDB(AbstractDB):
     def __init__(self, config):
         super().__init__(config)
-        print(self.config)
+        
         if 'FIREBASE' in self.config:
-            cred = credentials.Certificate("event-extraction-162da-firebase-adminsdk-f3e3q-1b54b55406.json")
+            cred = credentials.Certificate(self.config['FIREBASE']['CERT'])
             firebase_admin.initialize_app(cred, {
                 'databaseURL' : self.config['FIREBASE']['DSN']
             })

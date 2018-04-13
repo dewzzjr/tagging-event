@@ -3,7 +3,9 @@ from pymongo import MongoClient
 from datetime import datetime
 from .adb import AbstractDB
 import dateutil.parser
+import os
 
+IS_PROD = os.environ.get('IS_HEROKU', None)
 DEFAULT_DATASET = 'newdataset0'
 DEFAULT_DB_NAME = 'datasets'
 
@@ -12,29 +14,27 @@ class MongoDB(AbstractDB):
         self.dataset = dataset
         self.db_name = db_name
         super().__init__(config)
-        if config_name in self.config:
-            mongo_host = self.config[config_name]['HOST']
-            mongo_port = int(self.config[config_name]['PORT'])
-            if 'USER' in self.config[config_name]:
-                mongo_user = self.config[config_name]['USER']
-                mongo_pass = self.config[config_name]['PASS']
-#                server = SSHTunnelForwarder(
-#                    mongo_host,
-#                    ssh_username=mongo_user,
-#                    ssh_password=mongo_pass,
-#                    remote_bind_address=('127.0.0.1', mongo_port)
-#                )
-#                server.start()
-#                self.mongo = MongoClient('127.0.0.1', server.local_bind_port)
-                print('mongodb+srv://'+mongo_user+':'+mongo_pass+'@'+mongo_host+'/'+db_name)
-                self.mongo = MongoClient('mongodb+srv://'+mongo_user+':'+mongo_pass+'@'+mongo_host+'/'+db_name)
-                
-            else:
-                self.mongo = MongoClient(mongo_host, mongo_port)
-            print("init mongo")
+        if IS_PROD:
+            mongo_host = os.environ.get('MONGO_HOST', None)
+            mongo_user = os.environ.get('MONGO_USER', None)
+            mongo_pass = os.environ.get('MONGO_PASS', None)
+            self.mongo = MongoClient('mongodb+srv://'+mongo_user+':'+mongo_pass+'@'+mongo_host+'/'+db_name)
         else:
-            self.mongo = None
-            self._check_status()
+            if config_name in self.config:
+                mongo_host = self.config[config_name]['HOST']
+                mongo_port = int(self.config[config_name]['PORT'])
+                if 'USER' in self.config[config_name]:
+                    mongo_user = self.config[config_name]['USER']
+                    mongo_pass = self.config[config_name]['PASS']
+                    print('mongodb+srv://'+mongo_user+':'+mongo_pass+'@'+mongo_host+'/'+db_name)
+                    self.mongo = MongoClient('mongodb+srv://'+mongo_user+':'+mongo_pass+'@'+mongo_host+'/'+db_name)
+                    
+                else:
+                    self.mongo = MongoClient(mongo_host, mongo_port)
+                print("init mongo")
+            else:
+                self.mongo = None
+                self._check_status()
             
     
     def _check_status(self):

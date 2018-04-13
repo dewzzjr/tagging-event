@@ -37,10 +37,15 @@
 from flask import Flask, render_template, request, abort, url_for, jsonify
 from pagination import Pagination
 from database.md import MongoDB
+import os
 
+IS_PROD = os.environ.get('IS_HEROKU', None)
 
 app = Flask(__name__)
-database = MongoDB('config.ini', config_name = 'MONGO_ONLINE')
+if IS_PROD:
+    database = MongoDB()
+else:
+    database = MongoDB('config.ini', config_name = 'MONGO_ONLINE')
 
 PER_PAGE = 5
 DB = 'datasets'
