@@ -2,8 +2,14 @@ import os
 import configparser
 from pymongo import MongoClient 
 
-configFile = 'config.ini'
-config = configparser.ConfigParser()
-config.read(configFile )
-client = MongoClient(config['MONGO']['HOST'], 
-                     int(config['MONGO']['PORT']))
+try:
+    mongo_host = os.environ['MONGO']['HOST']
+    mongo_port = int(os.environ['MONGO']['PORT'])
+except KeyError:
+    configFile = 'config.ini'
+    config = configparser.ConfigParser()
+    config.read(configFile)
+    mongo_host = config['MONGO']['HOST']
+    mongo_port = int(config['MONGO']['PORT'])
+    
+client = MongoClient(mongo_host, mongo_port)

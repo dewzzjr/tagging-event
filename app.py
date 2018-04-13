@@ -34,17 +34,18 @@
 #        ]
 # -*- coding: utf-8 -*-
 
-import datetime
-import pyrebase
 from flask import Flask, render_template, request, abort, url_for, jsonify
 from pagination import Pagination
-from __init__ import client
+from database.md import MongoDB
+
 
 app = Flask(__name__)
+database = MongoDB('config.ini', config_name = 'MONGO_ONLINE')
 
 PER_PAGE = 5
 DB = 'datasets'
 COLLECTION = 'newdataset0'
+COUNT_ALL = database.getAll().count()
 
 @app.context_processor
 def color_processor():
@@ -93,37 +94,53 @@ def get_entries(page, limit):
     if page < 1:
         return []
     
-    db = client[DB]
-    c = db[COLLECTION]
-    skip = (page-1)*limit
-    entries = c.find().skip(skip).limit(limit)
-    return entries
+    offset = (page-1)*limit
+    
+    return database.getEntries(offset, limit)
+
+#    if page < 1:
+#        return []
+#    elif page == 1:
+#        return database.getEntries(None, limit)
+#    return database.getEntries(lastkey, limit)
+    
+#    db = client[DB]
+#    c = db[COLLECTION]
+#    entries = c.find().skip(offset).limit(limit)
+#    a = database.getEntries(offset, limit)
+#    app.logger.debug(type(a))
 
 def get_count_all():
-    db = client[DB]
-    c = db[COLLECTION]
-    return c.find().count()
+#    db = client[DB]
+#    c = db[COLLECTION]
+#    return c.find().count()
+    return COUNT_ALL
 
 @app.route("/api/<string:id>/<int:index>", methods = ['PUT', 'POST'])
 def replace_tag(id,index):
-    db = client[DB]
-    c = db[COLLECTION]
     app.logger.debug(request.get_json())
     json = request.get_json()
-    tag = json['tag']
-    c.update_one({'_id': id},
-                 {
-                    '$set': {'label.'+str(index):tag, 'timestamp':datetime.datetime.now()}
-                 })
+    
+#    db = client[DB]
+#    c = db[COLLECTION]
+#    c.update_one({'_id': id},
+#                 {
+#                    '$set': {'label.'+str(index):tag, 'timestamp':datetime.datetime.now()}
+#                 })
+    data = {'_id':id,'index':index,'tag':json['tag']}
+    database.setData(data)
+    database.setTimestamp(id)
     return id
 
 @app.route("/api/timestamp/<string:id>", methods = ['GET'])
 def get_timestamp(id):
-    db = client[DB]
-    c = db[COLLECTION]
     app.logger.debug("timestamp : "+id)
-    data = c.find_one({'_id': id})
-    return jsonify({'_id':id,'timestamp':data['timestamp']})
+#    db = client[DB]
+#    c = db[COLLECTION]
+#    data = c.find_one({'_id': id})
+    time = database.getTimestamp(id)
+    return jsonify({'_id':id,'timestamp':time})
 
 if __name__ == '__main__':
     app.run(debug=True)
+    
