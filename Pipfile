@@ -6,7 +6,7 @@ name = "pypi"
 [packages]
 flask = "*"
 configparser = "*"
-pymongo = "*"
+pymongo = {extras = ["srv"]}
 gunicorn = "*"
 python-dateutil = "*"
 
