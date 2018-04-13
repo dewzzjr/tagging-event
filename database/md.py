@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from pymongo import MongoClient 
-from sshtunnel import SSHTunnelForwarder
 from datetime import datetime
 from .adb import AbstractDB
 import dateutil.parser
