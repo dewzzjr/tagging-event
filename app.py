@@ -43,7 +43,7 @@ IS_PROD = os.environ.get('IS_HEROKU', None)
 
 app = Flask(__name__)
 if IS_PROD:
-    database = MongoDB()
+    database = MongoDB('')
 else:
     database = MongoDB('config.ini', config_name = 'MONGO_ONLINE')
 
