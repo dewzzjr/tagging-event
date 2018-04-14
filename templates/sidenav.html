@@ -1,0 +1,52 @@
+<div id="side-nav" class="sidenav">
+    <div class="container">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <h2>GUIDELINE </h2>
+    
+        <ul>
+            <li><strong>TOKEN</strong> adalah kata atau angka yang akan ditandai, contoh: <i>"lomba" "minggu" "juni" "22" "21.00"</i></li>
+            <li><strong>LABEL</strong> adalah penanda dari suatu token, <i>"B-NAME" "I-NAME" "I-PLACE" "B-INFO"</i></li>
+            <li><strong>DATA</strong> adalah kumpulan token dan label </li>
+            <li><strong>ENTITAS</strong> adalah sekumpulan token yang ditandai sebagai satu kesatuan yang utuh ditandai dengan <strong>B-{label}</strong> dan diikuti oleh <strong>I-{label}</strong></li>
+        </ul>
+        
+        <h3>LABEL </h3>
+        <ol>
+            <li>B-NAME digunakan untuk menandai awal token untuk entitas nama kegiatan </li>
+            <li>I-NAME digunakan untuk menandai bagian dari entitas nama kegiatan jika terdiri lebih dari 1 token </li>
+            <li>B-PLACE digunakan untuk menandai awal token untuk entitas tempat </li>
+            <li>I-PLACE digunakan untuk menandai bagian dari entitas tempat jika terdiri dari lebih dari 1 token </li>
+            <li>B-TIME digunakan untuk menandai awal token untuk entitas waktu </li>
+            <li>I-TIME digunakan untuk menandai bagian dari entitas waktu jika terdiri lebih dari 1 token </li>
+            <li>B-INFO digunakan untuk menandai awal token untuk entitas info kegiatan </li>
+            <li>I-INFO digunakan untuk menandai bagian dari entitas info kegiatan jika terdiri dari lebih dari 1 token </li>
+        </ol>
+        
+        <h3>ENTITAS NAMA KEGIATAN </h3>
+        <ol>
+            <li>terdiri dari nama kegiatan , contoh <i>"Lomba Mewarnai SMA 2 Surabaya" "Kampus Expo 2011"</i> </li>
+            <li>dalam satu data hanya diperbolehkan 1 label nama saja, jika tidak ada nama yang eksplisit bisa berupa frase singkat yang menggambarkan kegiatan dan boleh lebih dari satu </li>
+        </ol>
+        
+        <h3>ENTITAS TEMPAT </h3>
+        <ol>
+            <li>entitas tempat terdiri dari nama suatu tempat dan alamat diadakan kegiatan tersebut, contoh <i>"ITS Gedung SCC lt. 3" "FEB UNAIR" "Jl. Arif Rahman Hakim No. 204, Surabaya"</i> </li>
+            <li>entitas nama tempat dan alamat merupakan entitas yang berbeda </li>
+            <li>disarankan entitas tempat dapat ditemukan di google map, BUKAN suatu patokan seperti <i>"dekat gedung Siola" "di sebelah Kantor Pemkot Surabaya"</i> </li>
+        </ol>
+        
+        <h3>ENTITAS WAKTU </h3>
+        <ol>
+            <li>entitas waktu terdiri dari waktu kegiatan, deadline, rangkaian kegiatan, serta rentang waktu, dan segala bentuk yang menunjukkan satuan waktu </li>
+            <li>entitas waktu bisa berupa jam, hari, atau tanggal, contoh "21 April 2011" "Setiap hari sabtu" "Senin-Kamis" "pukul 20.00" "3PM" "Malam ini" "Senin, 2 Mei 2011" "23-30 Maret" "Besok rabu" </li>
+            <li>entitas waktu tanggal dan jam dianggap sebagai 2 entitas yang berbeda, nama hari disertai tanggal dianggap sebagai satu entitas, rentang waktu atau tanggal dianggap sebagai satu entitas yang sama. </li>
+        </ol>
+        
+        <h3>ENTITAS INFO </h3>
+        <ol>
+            <li>entitas info terdiri dari website, alamat email, sosial media, nomor telepon </li>
+            <li>entitas info berupa sosial media harus diikuti dengan nama sosial media tersebut, contoh "id line: @E82I8D" "IG: @xiaomiofficialindonesia" "Facebook: Nestle Indonesia" </li>
+            <li>jika nomor telepon diikuti oleh nama pemilik nomor tersebut maka  nama tersebut dimasukkan dalam satu entitas yang sama, contoh "Edi 085 6273 4484" "085 7727 9890/(031)3749212 a/n Endang" </li>
+        </ol>
+    </div>
+</div>

@@ -1,62 +1,10 @@
 # -*- coding: utf-8 -*-
-#from firebase import firebase
 import firebase_admin
 from firebase_admin import db, credentials
 from datetime import datetime
 from .adb import AbstractDB
 import dateutil.parser
 
-#
-#class FirebaseDB(AbstractDB):
-#    def __init__(self, config):
-#        super().__init__(config)
-#        print(self.config)
-#        if 'FIREBASE' in self.config:
-#            self.fb = firebase.FirebaseApplication(self.config['FIREBASE']['DSN'], None)
-#            print("init firebase")
-#        else:
-#            self.fb = None
-#            self._check_status()
-#            
-#    def _check_status(self):
-#        if self.fb is None:
-#            print("no firebase")
-#            raise NameError
-#    
-#    def getAll(self):
-#        return list(self.fb.get('/dataset/', None).values())
-#    
-#    def getEntries(self, offset, limit):
-#        entries = self.getAll()
-#        return entries[offset:offset+limit]
-#    
-#    def getId(self, id):
-#        return self.fb.get('/dataset/', id)
-#    
-#    def setData(self, data):
-#        url = '/dataset/' + data['_id'] + '/label'
-#        self.fb.put(url,
-#                    name=data['index'],
-#                    data=data['tag'],
-#                    params={'print': 'pretty'}, 
-#                    headers={'X_FANCY_HEADER': 'VERY FANCY'})
-#        
-#    def setTimestamp(self, id):
-#        url = '/dataset/' + id
-#        self.fb.put(url,
-#                    name='timestamp',
-#                    data=datetime.now(),
-#                    params={'print': 'pretty'}, 
-#                    headers={'X_FANCY_HEADER': 'VERY FANCY'})
-#        
-#    def getTimestamp(self, id):
-#        data = self.fb.get('/dataset/' + id, 'timestamp')
-#        try:
-#            time = dateutil.parser.parse(data)
-#        except TypeError:
-#            return None
-#        # print(time)
-#        return time;
 
 class FirebaseDB(AbstractDB):
     def __init__(self, config):

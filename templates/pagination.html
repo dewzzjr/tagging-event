@@ -1,22 +1,22 @@
-<div class="text-center">
+
 <div class="btn-group">
+<button type="button"  onclick="openNav()" class="btn btn-sm btn-primary">Guideline</button>
 {% if pagination.has_prev %}
-  <a class="btn btn-secondary" href="{{ url_for_other_page(pagination.page - 1) }}">&laquo; Previous</a>
+  <a class="btn btn-sm btn-secondary" href="{{ url_for_other_page(pagination.page - 1) }}">&laquo;</a>
 {% endif %}
 {% for page in pagination.iter_pages() %}
   {% if page %}
     {% if page != pagination.page %}
-      <a class="btn btn-secondary" href="{{ url_for_other_page(page) }}">{{ page }}</a>
+      <a class="btn btn-sm btn-secondary" href="{{ url_for_other_page(page) }}">{{ page }}</a>
     {% else %}
-      <strong class="btn btn-secondary disabled">{{ page }}</strong>
+      <strong class="btn btn-sm btn-secondary disabled">{{ page }}</strong>
     {% endif %}
   {% else %}
-    <span class="btn btn-secondary disabled">…</span>
+    <span class="btn btn-sm btn-secondary disabled">…</span>
   {% endif %}
 {% endfor %}
 {% if pagination.has_next %}
-  <a class="btn btn-secondary" href="{{ url_for_other_page(pagination.page + 1)
-    }}">Next &raquo;</a>
+  <a class="btn btn-sm btn-secondary" href="{{ url_for_other_page(pagination.page + 1)
+    }}">&raquo;</a>
 {% endif %}
-</div>
 </div>

@@ -64,7 +64,7 @@ class MongoDB(AbstractDB):
     def setData(self, data):
         updateData = {
                       '$set': {
-                              'label.'+data['index']:data['tag']
+                              'label.'+str(data['index']):data['tag']
                               }
                       }
         self.mongo[self.db_name][self.dataset].update_one({'_id': data['_id']}, updateData)

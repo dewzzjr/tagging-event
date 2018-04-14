@@ -32,5 +32,3 @@ class AbstractDB(ABC):
     @abstractmethod
     def setData(self, data):
         pass
-    
-
