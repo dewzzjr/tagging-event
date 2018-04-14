@@ -19,7 +19,7 @@ class AbstractDB(ABC):
     @abstractmethod
     def getId(self, id):
         pass
- 
+
     @abstractmethod
     def setTimestamp(self, id):
         pass
@@ -31,4 +31,16 @@ class AbstractDB(ABC):
     # data = {'_id':[YOUR_ID],'index':[TAG_INDEX],'tag':[TAG_NAME]}
     @abstractmethod
     def setData(self, data):
+        pass
+    
+    @abstractmethod
+    def setType(self, id, type):
+        pass
+    
+    @abstractmethod
+    def putData(self, data):
+        pass
+    
+    @abstractmethod
+    def removeType(self, id):
         pass

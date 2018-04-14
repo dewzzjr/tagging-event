@@ -48,6 +48,14 @@ class FirebaseDB(AbstractDB):
         token = self._get(data['_id'])
         token.child('label').update({data['index']:data['tag']})
         
+    def setType(self, id, type):
+        token = self._get(id)
+        token.update({'type':type})
+        
+    def removeType(self, id):
+        token = self._get(id)
+        token.child('type').remove()
+        
     def setTimestamp(self, id):
         token = self._get(id)
         token.update({'timestamp':datetime.now()})

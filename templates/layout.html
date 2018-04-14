@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Event Tagging</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/custom.css') }}">
 <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
 </head>
@@ -19,9 +20,48 @@
         {% block body %}{% endblock %}  
     </div>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" ></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" ></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script>
+$(function() {
+  var availableTags = [
+    "promosi","seminar","kuliner","hiburan","seni","kompetisi","kerohanian"
+  ];
+  
+  $(".autocomplete").autocomplete({
+    source: availableTags,
+    minLength: 0
+  }).focus(function(){
+    $(this).data("uiAutocomplete").search($(this).val());
+  });
+});
+
+function changeType(btnOk) {
+    var input = $(btnOk).parent().siblings(".autocomplete");
+    var valueType = $(input).val();
+    var header = $(input).parent().parent().parent();
+    var id = $(header).attr("id");
+}
+
+$(document).delegate('form', 'submit', function(event) {
+    event.preventDefault();
+    var $form = $(this);
+    var id = $form.attr('name');
+    var data = $form.serializeArray();
+    var valueType = data[0]['value'];
+    var urlToSend = "/api/type/" + id + "/" + valueType;
+    $.ajax({
+        contentType: "application/json",
+        type: "POST",
+        url: urlToSend,
+        success: function(d){
+            $form.popover('show')
+            setTimeout(function() {$form.popover('hide')},1000);
+        }
+    });
+});
+
 function tagging(btnTag) {
     var btnToken = $(btnTag).parent().siblings(".tag");
     var tokenId = $(btnToken).attr("id");

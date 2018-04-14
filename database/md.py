@@ -61,21 +61,23 @@ class MongoDB(AbstractDB):
             return None
         return time
     
+    # data = {'_id':[YOUR_ID],'index':[TAG_INDEX],'tag':[TAG_NAME]}
     def setData(self, data):
-        updateData = {
-                      '$set': {
-                              'label.'+str(data['index']):data['tag']
-                              }
-                      }
+        updateData = { '$set': { 'label.'+str(data['index']):data['tag'] } }
         self.mongo[self.db_name][self.dataset].update_one({'_id': data['_id']}, updateData)
+        
+    def setType(self, id, type):
+        updateData = { '$set': { 'type':type } }
+        self.mongo[self.db_name][self.dataset].update_one({'_id': id}, updateData)
+        
+    def removeType(self, id):
+        updateData = { '$unset': { 'type': 1 } }
+        self.mongo[self.db_name][self.dataset].update_one({'_id': id}, updateData)
+        
         
     def putData(self, data):
         self.mongo[self.db_name][self.dataset].insert_one(data)
         
     def setTimestamp(self, id):
-        updateData = {
-                      '$set': {
-                              'timestamp':datetime.now()
-                              }
-                      }
+        updateData = { '$set': { 'timestamp':datetime.now() } }
         self.mongo[self.db_name][self.dataset].update_one({'_id': id}, updateData)
