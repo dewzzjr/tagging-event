@@ -30,6 +30,22 @@
     color: #fff;
 }
 
+a.dropdown-item.success {
+    color: green;
+}
+
+a.dropdown-item.danger {
+    color: red;
+}
+
+a.dropdown-item.warning {
+    color: yellow;
+}
+
+a.dropdown-item.info {
+    color: blue;
+}
+
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
     transition: margin-left .5s;

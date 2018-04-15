@@ -22,14 +22,14 @@
                 {{tt}}
             </div>
             <div class="dropdown-menu">
-                <a onclick="tagging(this);" class="dropdown-item {{ 'active' if entry.label[loop.index0] == 'B-NAME' }}">B-NAME</a>
-                <a onclick="tagging(this);" class="dropdown-item {{ 'active' if entry.label[loop.index0] == 'I-NAME' }}">I-NAME</a>
-                <a onclick="tagging(this);" class="dropdown-item {{ 'active' if entry.label[loop.index0] == 'B-PLACE' }}">B-PLACE</a>
-                <a onclick="tagging(this);" class="dropdown-item {{ 'active' if entry.label[loop.index0] == 'I-PLACE' }}">I-PLACE</a>
-                <a onclick="tagging(this);" class="dropdown-item {{ 'active' if entry.label[loop.index0] == 'B-TIME' }}">B-TIME</a>
-                <a onclick="tagging(this);" class="dropdown-item {{ 'active' if entry.label[loop.index0] == 'I-TIME' }}">I-TIME</a>
-                <a onclick="tagging(this);" class="dropdown-item {{ 'active' if entry.label[loop.index0] == 'B-INFO' }}">B-INFO</a>
-                <a onclick="tagging(this);" class="dropdown-item {{ 'active' if entry.label[loop.index0] == 'I-INFO' }}">I-INFO</a>
+                <a onclick="tagging(this);" class="dropdown-item danger {{ 'active' if entry.label[loop.index0] == 'B-NAME' }}">B-NAME</a>
+                <a onclick="tagging(this);" class="dropdown-item danger {{ 'active' if entry.label[loop.index0] == 'I-NAME' }}">I-NAME</a>
+                <a onclick="tagging(this);" class="dropdown-item success {{ 'active' if entry.label[loop.index0] == 'B-PLACE' }}">B-PLACE</a>
+                <a onclick="tagging(this);" class="dropdown-item success {{ 'active' if entry.label[loop.index0] == 'I-PLACE' }}">I-PLACE</a>
+                <a onclick="tagging(this);" class="dropdown-item warning {{ 'active' if entry.label[loop.index0] == 'B-TIME' }}">B-TIME</a>
+                <a onclick="tagging(this);" class="dropdown-item warning {{ 'active' if entry.label[loop.index0] == 'I-TIME' }}">I-TIME</a>
+                <a onclick="tagging(this);" class="dropdown-item info {{ 'active' if entry.label[loop.index0] == 'B-INFO' }}">B-INFO</a>
+                <a onclick="tagging(this);" class="dropdown-item info {{ 'active' if entry.label[loop.index0] == 'I-INFO' }}">I-INFO</a>
                 <a onclick="tagging(this);" class="dropdown-item {{ 'active' if entry.label[loop.index0] == 'O' }}">O</a>
             </div>
         </span>
