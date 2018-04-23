@@ -24,125 +24,126 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script>
-$(function() {
-  var availableTags = [
-    "bazaar","hiburan","kerohanian","kompetisi","kuliner","lowongan","pameran","promosi","seminar","seni","sosial"
-  ];
-  
-  $(".autocomplete").autocomplete({
-    source: availableTags,
-    minLength: 0
-  }).focus(function(){
-    $(this).data("uiAutocomplete").search($(this).val());
-  });
-});
-
-function changeType(btnOk) {
-    var input = $(btnOk).parent().siblings(".autocomplete");
-    var valueType = $(input).val();
-    var header = $(input).parent().parent().parent();
-    var id = $(header).attr("id");
-}
-
-$(document).delegate('form', 'submit', function(event) {
-    event.preventDefault();
-    var $form = $(this);
-    var id = $form.attr('name');
-    var data = $form.serializeArray();
-    var valueType = data[0]['value'];
-    var urlToSend = "/api/type/" + id + "/" + valueType;
-    $.ajax({
-        contentType: "application/json",
-        type: "POST",
-        url: urlToSend,
-        success: function(d){
-            $form.popover('show')
-            setTimeout(function() {$form.popover('hide')},1000);
-        }
-    });
-});
-
-function tagging(btnTag) {
-    var btnToken = $(btnTag).parent().siblings(".tag");
-    var tokenId = $(btnToken).attr("id");
-    var obj = tokenId.split("-");
-
-    var id = obj[0];
-    var index = parseInt(obj[1])
-    var tag = $(btnTag).text();
-    var token = $(btnToken).text().trim();
-    var data = { 'tag': tag };
-    var urlToSend = "/api/" + id + "/" + obj[1];
-    $.ajax({
-        contentType: "application/json",
-        type: "PUT",
-        url: urlToSend,
-        data: JSON.stringify(data),
-        success: function(d){
-            changeTag(btnTag)
-            tokenColor(btnToken, data.tag)
-            changeTimestamp(btnTag, id)
-        }
-    });
-}
-function changeTag(btnTag) {
-    $(btnTag).addClass("active")
-    $(btnTag).siblings(".active").removeClass("active")
-}
-
-function changeTimestamp(btnTag, id) {
-    var urlToSend = "/api/timestamp/" + id;
-    $.ajax({
-        contentType: "application/json",
-        type: "GET",
-        url: urlToSend,
-        dataType: "json",
-        success: function (d) {
-            console.log("Data Update at:" + d['timestamp']);
-            $(btnTag).parent().parent().find(".timestamp").html(d['timestamp'])
-        }
-    })
-}
-
-function tokenColor(btnToken, tag) {
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    $(function() {
+    var availableTags = [
+        "bazaar","hiburan","kerohanian","kompetisi","kuliner","lowongan","pameran","promosi","seminar","seni","sosial"
+    ];
     
-    tags = [
-        'B-NAME', 'I-NAME',
-        'B-PLACE', 'I-PLACE',
-        'B-TIME', 'I-TIME',
-        'B-INFO', 'I-INFO', 'O'
-    ]
-    b_tag = [
-        'btn-danger', 'btn-danger',
-        'btn-success', 'btn-success',
-        'btn-warning', 'btn-warning',
-        'btn-info', 'btn-info', 'btn-default'
-    ]
-    b_bold = [
-        'font-weight-bold', '',
-        'font-weight-bold', '',
-        'font-weight-bold', '',
-        'font-weight-bold', '', ''
-    ]
+    $(".autocomplete").autocomplete({
+        source: availableTags,
+        minLength: 0
+    }).focus(function(){
+        $(this).data("uiAutocomplete").search($(this).val());
+    });
+    });
 
-    $(btnToken).removeClass('font-weight-bold')
-    for (var i = 0; i < b_tag.length; i++) {
-        $(btnToken).removeClass(b_tag[i])
+    function changeType(btnOk) {
+        var input = $(btnOk).parent().siblings(".autocomplete");
+        var valueType = $(input).val();
+        var header = $(input).parent().parent().parent();
+        var id = $(header).attr("id");
     }
-    
-    var index = -1;
-    for (var i = 0; i < tags.length; i++) {
-        if (tags[i] == tag) {
-            index = i;
-            if (index != -1) {
-                $(btnToken).addClass(b_bold[i])
-                $(btnToken).addClass(b_tag[i])
-                break;
+
+    $(document).delegate('form', 'submit', function(event) {
+        event.preventDefault();
+        var $form = $(this);
+        var id = $form.attr('name');
+        var data = $form.serializeArray();
+        var valueType = data[0]['value'];
+        var urlToSend = $SCRIPT_ROOT + "/api/type/" + id + "/" + valueType;
+        $.ajax({
+            contentType: "application/json",
+            type: "POST",
+            url: urlToSend,
+            success: function(d){
+                $form.popover('show')
+                setTimeout(function() {$form.popover('hide')},1000);
+            }
+        });
+    });
+
+    function tagging(btnTag) {
+        var btnToken = $(btnTag).parent().siblings(".tag");
+        var tokenId = $(btnToken).attr("id");
+        var obj = tokenId.split("-");
+
+        var id = obj[0];
+        var index = parseInt(obj[1])
+        var tag = $(btnTag).text();
+        var token = $(btnToken).text().trim();
+        var data = { 'tag': tag };
+        var urlToSend = $SCRIPT_ROOT + "/api/" + id + "/" + obj[1];
+        $.ajax({
+            contentType: "application/json",
+            type: "PUT",
+            url: urlToSend,
+            data: JSON.stringify(data),
+            success: function(d){
+                changeTag(btnTag)
+                tokenColor(btnToken, data.tag)
+                changeTimestamp(btnTag, id)
+            }
+        });
+    }
+    function changeTag(btnTag) {
+        $(btnTag).addClass("active")
+        $(btnTag).siblings(".active").removeClass("active")
+    }
+
+    function changeTimestamp(btnTag, id) {
+        var urlToSend = $SCRIPT_ROOT + "/api/timestamp/" + id;
+        $.ajax({
+            contentType: "application/json",
+            type: "GET",
+            url: urlToSend,
+            dataType: "json",
+            success: function (d) {
+                console.log("Data Update at:" + d['timestamp']);
+                $(btnTag).parent().parent().find(".timestamp").html(d['timestamp'])
+            }
+        })
+    }
+
+    function tokenColor(btnToken, tag) {
+        
+        tags = [
+            'B-NAME', 'I-NAME',
+            'B-PLACE', 'I-PLACE',
+            'B-TIME', 'I-TIME',
+            'B-INFO', 'I-INFO', 'O'
+        ]
+        b_tag = [
+            'btn-danger', 'btn-danger',
+            'btn-success', 'btn-success',
+            'btn-warning', 'btn-warning',
+            'btn-info', 'btn-info', 'btn-default'
+        ]
+        b_bold = [
+            'font-weight-bold', '',
+            'font-weight-bold', '',
+            'font-weight-bold', '',
+            'font-weight-bold', '', ''
+        ]
+
+        $(btnToken).removeClass('font-weight-bold')
+        for (var i = 0; i < b_tag.length; i++) {
+            $(btnToken).removeClass(b_tag[i])
+        }
+        
+        var index = -1;
+        for (var i = 0; i < tags.length; i++) {
+            if (tags[i] == tag) {
+                index = i;
+                if (index != -1) {
+                    $(btnToken).addClass(b_bold[i])
+                    $(btnToken).addClass(b_tag[i])
+                    break;
+                }
             }
         }
+        
     }
-    
-}
 </script>
 </html>
 </body>
