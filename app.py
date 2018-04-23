@@ -40,17 +40,13 @@ from database.md import MongoDB
 import os
 
 IS_PROD = os.environ.get('IS_HEROKU', None)
-
-app = Flask(__name__)
+PER_PAGE = 5
+COUNT_ALL = 0
 if IS_PROD:
     database = MongoDB('')
 else:
     database = MongoDB('config.ini', config_name = 'MONGO_ONLINE')
-
-PER_PAGE = 5
-DB = 'datasets'
-COLLECTION = 'newdataset0'
-COUNT_ALL = database.getAll().count()
+app = Flask(__name__)
 
 @app.context_processor
 def color_processor():
@@ -132,5 +128,6 @@ def get_timestamp(id):
     return jsonify({'_id':id,'timestamp':time})
 
 if __name__ == '__main__':
+    COUNT_ALL = database.getAll().count()
     app.run(debug=True)
     
