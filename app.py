@@ -127,7 +127,10 @@ def get_timestamp(id):
     time = database.getTimestamp(id)
     return jsonify({'_id':id,'timestamp':time})
 
-if __name__ == '__main__':
+
+def main():
     COUNT_ALL = database.getAll().count()
     app.run(debug=True)
-    
+
+if __name__ == '__main__':
+    main()
