@@ -44,6 +44,7 @@ PER_PAGE = 5
 COUNT_ALL = 0
 if IS_PROD:
     database = MongoDB('')
+    COUNT_ALL = database.getAll().count()
 else:
     database = MongoDB('config.ini', config_name = 'MONGO_ONLINE')
 app = Flask(__name__)
