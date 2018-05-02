@@ -130,6 +130,7 @@ def get_timestamp(id):
 
 def main():
     COUNT_ALL = database.getAll().count()
+    print(COUNT_ALL)
     app.run(debug=True)
 
 if __name__ == '__main__':
