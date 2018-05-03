@@ -2,34 +2,18 @@
 # entries = [
 #            {
 #                '_id':1,
-#                'token_tags':
-#                [
-#                     {'token':'lorem', 'tag':'O'},
-#                     {'token':'ipsum', 'tag':'B-TIME'},
-#                     {'token':'dolor', 'tag':'O'},
-#                     {'token':',', 'tag':','}
-#                ]
+#                'label': [ 'lorem', 'ipsum', 'dolor' ],
+#                'text': [ 'O', 'B-TIME', 'O' ]
 #            },
 #            {
 #                '_id':2,
-#                'token_tags':
-#                [
-#                     {'token':'lorem', 'tag':'O'},
-#                     {'token':',', 'tag':','},
-#                     {'token':'dolor', 'tag':'B-PLACE'},
-#                     {'token':'ipsum', 'tag':'I-PLACE'}
-#                ]
+#                'label': [ 'lorem', ',', 'ipsum', 'dolor' ],
+#                'text': [ 'O', 'O', 'B-PLACE', 'I-PLACE' ]
 #            },
 #            {
-#                '_id':3,
-#                'token_tags':
-#                [
-#                     {'token':'lorem', 'tag':'B-NAME'},
-#                     {'token':'ipsum', 'tag':'B-TIME'},
-#                     {'token':'dolor', 'tag':'O'},
-#                     {'token':'sit', 'tag':'O'},
-#                     {'token':'?', 'tag':'?'}
-#                ]
+#                '_id': 3,
+#                'label': ['lorem', 'ipsum', 'dolor', 'sit', '?'],
+#                'text': ['B-NAME', 'B-TIME', 'O', 'O', 'O']
 #            }
 #        ]
 # -*- coding: utf-8 -*-

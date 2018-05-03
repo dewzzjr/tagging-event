@@ -9,6 +9,7 @@ configparser = "*"
 pymongo = {extras = ["srv"]}
 gunicorn = "*"
 python-dateutil = "*"
+firebase-admin = "*"
 
 [dev-packages]
 pylint = "*"
