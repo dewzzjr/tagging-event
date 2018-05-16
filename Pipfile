@@ -10,6 +10,8 @@ pymongo = {extras = ["srv"]}
 gunicorn = "*"
 python-dateutil = "*"
 firebase-admin = "*"
+nltk = "*"
+sklearn-crfsuite = "*"
 
 [dev-packages]
 pylint = "*"

@@ -24,12 +24,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script>
-    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    $SCRIPT_ROOT = "{{ request.script_root|tojson|safe }}";
     $(function() {
     var availableTags = [
         "bazaar","hiburan","kerohanian","kompetisi","kuliner","lowongan","pameran","promosi","seminar","seni","sosial"
     ];
     
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+
     $(".autocomplete").autocomplete({
         source: availableTags,
         minLength: 0

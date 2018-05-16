@@ -1,22 +1,22 @@
 {% extends "layout.html" %}
-{% block body %}
-{% for entry in entries %}
+{% block body %} 
+{% for entry in entries -%}
 <div class="card">
     <div class="card-header">
         ID:{{entry._id}}
         <div class="float-right">
-          <form name="{{entry._id}}"  data-toggle="popover" data-content="success">
-          <div class="input-group form-group">
-            <input name="type" class="form-control form-control-sm autocomplete" placeholder="jenis kegiatan" {% if entry.type is defined %} value="{{ entry.type }}" {% endif %}/>
-            <span class="input-group-btn">
-                <input class="btn btn-success btn-sm sendType" type="submit" value="OK"/>
-            </span>
-          </div>
-          </form>
+            <form name="{{entry._id}}" data-toggle="popover" data-content="success">
+                <div class="input-group form-group">
+                    <input name="type" class="form-control form-control-sm autocomplete" placeholder="jenis kegiatan" {% if entry.type is defined %} value="{{ entry.type }}" {% endif %}/>
+                    <span class="input-group-btn">
+                        <input class="btn btn-success btn-sm sendType" type="submit" value="OK"/>
+                    </span>
+                </div>
+            </form>
         </div>
     </div>
     <div class="card-body">
-        {% for tt in entry.text %}
+        {% for tt in entry.text -%}
         <span class="">
             <div id="{{entry._id}}-{{loop.index0}}" class="tag btn btn-sm {{ tag_color(entry.label[loop.index0]) }} {{ 'disabled' if entry.label[loop.index0] == tt }}" data-toggle="dropdown">
                 {{tt}}
@@ -33,13 +33,15 @@
                 <a onclick="tagging(this);" class="dropdown-item {{ 'active' if entry.label[loop.index0] == 'O' }}">O</a>
             </div>
         </span>
-        {% endfor %}
+        {% endfor -%}
         <br />
+    </div>
+    <div class="card-footer text-muted">
         <small class="card-text text-info timestamp"> 
             {{ entry.timestamp }}
         </small>
     </div>
 </div>
 <br/>
-{% endfor %}
+{% endfor -%}
 {% endblock %}

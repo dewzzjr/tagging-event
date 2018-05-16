@@ -1,0 +1,77 @@
+{% extends "layout.html" %} 
+{% block body %} 
+{% for entry in entries[0] -%}
+<div class="card">
+    <div class="card-header">
+        ID:{{entry._id}}
+        <div class="float-right">
+            <form name="{{entry._id}}" data-toggle="popover" data-content="success">
+                <div class="input-group form-group">
+                    <input name="type" class="form-control form-control-sm autocomplete" placeholder="jenis kegiatan" {% if entry.type is defined %} value="{{ entry.type }}" {% endif %}/>
+                    <span class="input-group-btn">
+                        <input class="btn btn-success btn-sm sendType" type="submit" value="OK" />
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card-body">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            {% for tt in entry.text -%}
+            <span class="">
+                <div id="{{entry._id}}-{{loop.index0}}" class="tag btn btn-sm {{ tag_color(entry.label[loop.index0]) }} {{ 'disabled' if entry.label[loop.index0] == tt }}" data-toggle="dropdown">
+                    {{tt}}
+                </div>
+                <div class="dropdown-menu">
+                    <a onclick="tagging(this);" class="dropdown-item danger {{ 'active' if entry.label[loop.index0] == 'B-NAME' }}">B-NAME</a>
+                    <a onclick="tagging(this);" class="dropdown-item danger {{ 'active' if entry.label[loop.index0] == 'I-NAME' }}">I-NAME</a>
+                    <a onclick="tagging(this);" class="dropdown-item success {{ 'active' if entry.label[loop.index0] == 'B-PLACE' }}">B-PLACE</a>
+                    <a onclick="tagging(this);" class="dropdown-item success {{ 'active' if entry.label[loop.index0] == 'I-PLACE' }}">I-PLACE</a>
+                    <a onclick="tagging(this);" class="dropdown-item warning {{ 'active' if entry.label[loop.index0] == 'B-TIME' }}">B-TIME</a>
+                    <a onclick="tagging(this);" class="dropdown-item warning {{ 'active' if entry.label[loop.index0] == 'I-TIME' }}">I-TIME</a>
+                    <a onclick="tagging(this);" class="dropdown-item info {{ 'active' if entry.label[loop.index0] == 'B-INFO' }}">B-INFO</a>
+                    <a onclick="tagging(this);" class="dropdown-item info {{ 'active' if entry.label[loop.index0] == 'I-INFO' }}">I-INFO</a>
+                    <a onclick="tagging(this);" class="dropdown-item {{ 'active' if entry.label[loop.index0] == 'O' }}">O</a>
+                </div>
+            </span>
+            {% endfor -%}
+        </li>
+        <li class="list-group-item">
+            {% set loopentry = loop -%}
+            {% set countFalse = 0 -%}
+            {% set countTrue = 0 -%}
+            {% for tt in entry.text -%}
+            <span class="">
+                {% set test = entries[1][loopentry.index0][loop.index0][1] -%}
+                {% set label = entry.label[loop.index0] -%}
+                <div id="{{entry._id}}-{{loop.index0}}" class="tag btn btn-sm {{ tag_color(test) }}" data-toggle=tooltip {% if test != label %} {{ "title="}}{{ label }}{{"|"}}{{ test }} {% endif %}>
+                    {% if test != label -%} <del> {% endif -%}
+                    {{tt}}
+                    {% if test != label -%} </del> {% endif -%}
+                    {% if test != label -%}
+                        {% set countFalse = countFalse + 1 -%}
+                    {% else -%}
+                        {% set countTrue = countTrue + 1 -%}
+                    {% endif -%}
+                </div>
+                
+            </span>
+            {% endfor -%}
+        </li>
+    </ul>
+    </div>
+    <div class="card-footer text-muted">
+        <small class="card-text text-info timestamp"> 
+            {{ entry.timestamp }}
+        </small>
+        <small class="card-text text-info timestamp"> 
+            True: {{ countTrue }}
+            False: {{ countFalse }}
+        </small>
+    </div>
+</div>
+<br/> 
+{% endfor -%} 
+ACCURACY = {{ accuracy }}
+{% endblock %}

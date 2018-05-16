@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-from pymongo import MongoClient 
+from pymongo import MongoClient, errors 
 from datetime import datetime
 from .adb import AbstractDB
 import dateutil.parser
 import os
 
 IS_PROD = os.environ.get('IS_HEROKU', None)
-DEFAULT_DATASET = 'newdataset0'
+DEFAULT_DATASET = 'newdataset1'
 DEFAULT_DB_NAME = 'datasets'
 
 class MongoDB(AbstractDB):
@@ -81,3 +81,22 @@ class MongoDB(AbstractDB):
     def setTimestamp(self, id):
         updateData = { '$set': { 'timestamp':datetime.now() } }
         self.mongo[self.db_name][self.dataset].update_one({'_id': id}, updateData)
+
+    def insertTagged(self, id):
+        try:
+            self.mongo['status']['tagged'].insert_one({'_id': id})
+        except errors.DuplicateKeyError:
+            pass
+        
+
+    def removeTagged(self, id):
+        self.mongo['status']['tagged'].remove({"_id":id})
+
+    def getTagged(self):
+        datas = []
+
+        for data in self.mongo['status']['tagged'].find():
+            datas.append(data['_id'])
+        result = self.mongo[self.db_name][self.dataset].find(
+            {'_id': {'$in': datas}})
+        return result
