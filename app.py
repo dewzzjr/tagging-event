@@ -117,7 +117,7 @@ def get_count_all():
 
 @app.route("/api/<string:id>/<int:index>", methods = ['PUT', 'POST'])
 def replace_tag(id,index):
-    print(request.get_json())
+    # print(request.get_json())
     json = request.get_json()
     
     data = {'_id':id,'index':index,'tag':json['tag']}
@@ -136,7 +136,7 @@ def set_type(id,type = None):
 
 @app.route("/api/timestamp/<string:id>", methods = ['GET'])
 def get_timestamp(id):
-    print("timestamp : "+id)
+    # print("timestamp : "+id)
     time = database.getTimestamp(id)
     return jsonify({'_id':id,'timestamp':time})
 

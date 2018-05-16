@@ -30,7 +30,7 @@ class DataAdapter(object):
     def for_testing(self, data):
         # self.data = data
         array = []
-        print('TEST', data.count())
+        # print('TEST', data.count())
         for d in data:
             all_tags = []
             for index, t in enumerate(d['text']):
@@ -38,7 +38,7 @@ class DataAdapter(object):
                 one_tag = [t, d['label'][index]]
                 all_tags.append(one_tag)
             array.append(all_tags)
-            print(all_tags)
+            # print(all_tags)
         return array
 
     def for_tagging(self, data):
