@@ -24,7 +24,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script>
-    $SCRIPT_ROOT = "{{ request.script_root|tojson|safe }}";
+    // $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     $(function() {
     var availableTags = [
         "bazaar","hiburan","kerohanian","kompetisi","kuliner","lowongan","pameran","promosi","seminar","seni","sosial"
@@ -55,7 +55,8 @@
         var id = $form.attr('name');
         var data = $form.serializeArray();
         var valueType = data[0]['value'];
-        var urlToSend = $SCRIPT_ROOT + "/api/type/" + id + "/" + valueType;
+        // var urlToSend = $SCRIPT_ROOT + "/api/type/" + id + "/" + valueType;
+        var urlToSend = "/api/type/" + id + "/" + valueType;
         $.ajax({
             contentType: "application/json",
             type: "POST",
@@ -77,7 +78,8 @@
         var tag = $(btnTag).text();
         var token = $(btnToken).text().trim();
         var data = { 'tag': tag };
-        var urlToSend = $SCRIPT_ROOT + "/api/" + id + "/" + obj[1];
+        // var urlToSend = $SCRIPT_ROOT + "/api/" + id + "/" + obj[1];
+        var urlToSend = "/api/" + id + "/" + obj[1];
         $.ajax({
             contentType: "application/json",
             type: "PUT",
@@ -96,7 +98,8 @@
     }
 
     function changeTimestamp(btnTag, id) {
-        var urlToSend = $SCRIPT_ROOT + "/api/timestamp/" + id;
+        var urlToSend = "/api/timestamp/" + id;
+        // var urlToSend = $SCRIPT_ROOT + "/api/timestamp/" + id;
         $.ajax({
             contentType: "application/json",
             type: "GET",
