@@ -18,6 +18,9 @@
     <div class="card-body">
         {% for tt in entry.text -%}
         <span class="">
+            {% if tt == '|' -%}
+            <br />
+            {% else -%}
             <div id="{{entry._id}}-{{loop.index0}}" class="tag btn btn-sm {{ tag_color(entry.label[loop.index0]) }} {{ 'disabled' if entry.label[loop.index0] == tt }}" data-toggle="dropdown">
                 {{tt}}
             </div>
@@ -32,6 +35,7 @@
                 <a onclick="tagging(this);" class="dropdown-item info {{ 'active' if entry.label[loop.index0] == 'I-INFO' }}">I-INFO</a>
                 <a onclick="tagging(this);" class="dropdown-item {{ 'active' if entry.label[loop.index0] == 'O' }}">O</a>
             </div>
+            {% endif -%}
         </span>
         {% endfor -%}
         <br />

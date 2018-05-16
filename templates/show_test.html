@@ -20,6 +20,9 @@
         <li class="list-group-item">
             {% for tt in entry.text -%}
             <span class="">
+                {% if tt == '|' -%}
+                <br />
+                {% else -%}
                 <div id="{{entry._id}}-{{loop.index0}}" class="tag btn btn-sm {{ tag_color(entry.label[loop.index0]) }} {{ 'disabled' if entry.label[loop.index0] == tt }}" data-toggle="dropdown">
                     {{tt}}
                 </div>
@@ -34,28 +37,32 @@
                     <a onclick="tagging(this);" class="dropdown-item info {{ 'active' if entry.label[loop.index0] == 'I-INFO' }}">I-INFO</a>
                     <a onclick="tagging(this);" class="dropdown-item {{ 'active' if entry.label[loop.index0] == 'O' }}">O</a>
                 </div>
+                {% endif -%}
             </span>
             {% endfor -%}
         </li>
         <li class="list-group-item">
             {% set loopentry = loop -%}
-            {% set countFalse = 0 -%}
-            {% set countTrue = 0 -%}
+            {% set countFalse = [0] -%}
+            {% set countTrue  = [0] -%}
             {% for tt in entry.text -%}
             <span class="">
                 {% set test = entries[1][loopentry.index0][loop.index0][1] -%}
                 {% set label = entry.label[loop.index0] -%}
+                {% if tt == '|' -%}
+                <br />
+                {% else -%}
                 <div id="{{entry._id}}-{{loop.index0}}" class="tag btn btn-sm {{ tag_color(test) }}" data-toggle=tooltip {% if test != label %} {{ "title="}}{{ label }}{{"|"}}{{ test }} {% endif %}>
                     {% if test != label -%} <del> {% endif -%}
                     {{tt}}
                     {% if test != label -%} </del> {% endif -%}
                     {% if test != label -%}
-                        {% set countFalse = countFalse + 1 -%}
+                        {% if countFalse.append(countFalse.pop() + 1) -%}{% endif -%}
                     {% else -%}
-                        {% set countTrue = countTrue + 1 -%}
+                        {% if countTrue.append(countTrue.pop() + 1) -%}{% endif -%}
                     {% endif -%}
                 </div>
-                
+                {% endif -%}
             </span>
             {% endfor -%}
         </li>
@@ -66,8 +73,8 @@
             {{ entry.timestamp }}
         </small>
         <small class="card-text text-info timestamp"> 
-            True: {{ countTrue }}
-            False: {{ countFalse }}
+            True: {{ countTrue[0] }}
+            False: {{ countFalse[0] }}
         </small>
     </div>
 </div>

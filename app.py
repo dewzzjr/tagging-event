@@ -4,17 +4,22 @@
 #            {
 #                '_id':1,
 #                'label': [ 'lorem', 'ipsum',  'dolor' ],
-#                'text' : [ 'O',     'B-TIME', 'O'     ]
+#                'text' : [ 'O',     'B-TIME', 'O'     ],
+#                'timestamp': 2018-03-29 15:11:09.130000,
+#                'type': 'bazaar'
 #            },
 #            {
 #                '_id':2,
 #                'label': [ 'lorem', ',', 'ipsum',   'dolor'   ],
-#                'text' : [ 'O',     'O', 'B-PLACE', 'I-PLACE' ]
+#                'text' : [ 'O',     'O', 'B-PLACE', 'I-PLACE' ],
+#                'timestamp': 2018-05-16 10:40:10.674000,
+#                'type': 'pendidikan'
 #            },
 #            {
 #                '_id': 3,
 #                'label': [ 'lorem',  'ipsum',  'dolor', 'sit', '?' ],
-#                'text' : [ 'B-NAME', 'B-TIME', 'O',     'O',   'O' ]
+#                'text' : [ 'B-NAME', 'B-TIME', 'O',     'O',   'O' ],
+#                'timestamp': 2018-05-16 10:41:48.999000,
 #            }
 #        ]
 
@@ -76,7 +81,6 @@ def index(page, limit):
         entries=entries,
         pagination=pagination
     )
-
 
 @app.route("/test", defaults={'page': 1, 'limit': PER_PAGE})
 @app.route("/page/<int:page>/test", defaults={'limit': PER_PAGE})
