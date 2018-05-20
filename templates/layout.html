@@ -10,24 +10,18 @@
 <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
 </head>
 
-<body>
-
-    {% include "sidenav.html" %}
-    <div class="container" id="main">
-    <div class="fixed-top text-center">
-        {% include "pagination.html" %}
-    </div>
-        {% block body %}{% endblock %}  
-    </div>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" ></script>
 <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" ></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<body>
+
 <script>
     // $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     $(function() {
     var availableTags = [
-        "bazaar","hiburan","kerohanian","kompetisi","kuliner","lowongan","pameran","promosi","seminar","seni","sosial"
+        "bazaar","hiburan","kerohanian","kompetisi","kuliner","lowongan","pameran","pendidikan","promosi","seminar","seni","sosial"
     ];
     
     $(function () {
@@ -152,5 +146,13 @@
         
     }
 </script>
-</html>
+
+    {% include "sidenav.html" %}
+    <div class="container" id="main">
+    <div class="fixed-top text-center">
+        {% include "pagination.html" %}
+    </div>
+        {% block body %}{% endblock %}  
+    </div>
 </body>
+</html>
