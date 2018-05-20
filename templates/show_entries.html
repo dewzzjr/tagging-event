@@ -21,7 +21,7 @@
             {% if tt == '|' -%}
             <br />
             {% else -%}
-            <div id="{{entry._id}}-{{loop.index0}}" class="tag btn btn-sm {{ tag_color(entry.label[loop.index0]) }} {{ 'disabled' if entry.label[loop.index0] == tt }}" data-toggle="dropdown">
+            <div id="{{entry._id}}-{{loop.index0}}" class="tag btn btn-sm {{ tag_color(entry.label[loop.index0]) }} {# 'disabled' if entry.label[loop.index0] == tt #}" data-toggle="dropdown">
                 {{tt}}
             </div>
             <div class="dropdown-menu">
