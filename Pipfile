@@ -12,6 +12,7 @@ python-dateutil = "*"
 firebase-admin = "*"
 nltk = "*"
 sklearn-crfsuite = "*"
+console-progressbar = "*"
 
 [dev-packages]
 pylint = "*"

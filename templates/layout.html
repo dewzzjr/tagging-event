@@ -16,24 +16,23 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 <body>
-
+<script>
+    var availableTags = {{ available_type|list|safe }}
+</script>
 <script>
     // $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     $(function() {
-    var availableTags = [
-        "bazaar","hiburan","kerohanian","kompetisi","kuliner","lowongan","pameran","pendidikan","promosi","seminar","seni","sosial"
-    ];
-    
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    })
+        
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
 
-    $(".autocomplete").autocomplete({
-        source: availableTags,
-        minLength: 0
-    }).focus(function(){
-        $(this).data("uiAutocomplete").search($(this).val());
-    });
+        $(".autocomplete").autocomplete({
+            source: availableTags,
+            minLength: 0
+        }).focus(function(){
+            $(this).data("uiAutocomplete").search($(this).val());
+        });
     });
 
     function changeType(btnOk) {
@@ -105,40 +104,50 @@
             }
         })
     }
-
+</script>
+<script>
     function tokenColor(btnToken, tag) {
         
-        tags = [
-            'B-NAME', 'I-NAME',
-            'B-PLACE', 'I-PLACE',
-            'B-TIME', 'I-TIME',
-            'B-INFO', 'I-INFO', 'O'
-        ]
-        b_tag = [
-            'btn-danger', 'btn-danger',
-            'btn-success', 'btn-success',
-            'btn-warning', 'btn-warning',
-            'btn-info', 'btn-info', 'btn-default'
-        ]
-        b_bold = [
-            'font-weight-bold', '',
-            'font-weight-bold', '',
-            'font-weight-bold', '',
-            'font-weight-bold', '', ''
-        ]
+        var tags   = {{ tags[0]|list|safe }}
+        /**
+         * initialize all class
+         * example:
+         * b_tag0 = ['danger','warning', 'info']
+         */
+        {% for cs in css -%}
+        var b_tag{{ loop.index0 }} = {{  css[loop.index0]|list|safe }}
+        {% endfor -%}
 
-        $(btnToken).removeClass('font-weight-bold')
-        for (var i = 0; i < b_tag.length; i++) {
-            $(btnToken).removeClass(b_tag[i])
+        /**
+         * remove all class from label
+         * example:
+         * for (var i = 0; i < b_tag0.length; i++ {
+         *    if(b_tag0[i] != ''){
+         *        $(btnToken).removeClass(b_tag0[i])
+         *    }
+         * }
+         */
+        {% for cs in css -%}
+        for (var i = 0; i < b_tag{{ loop.index0 }}.length; i++) {
+            if(b_tag{{ loop.index0 }}[i] != ''){
+                $(btnToken).removeClass(b_tag{{ loop.index0 }}[i])
+            }
         }
+        {% endfor -%}
         
         var index = -1;
         for (var i = 0; i < tags.length; i++) {
             if (tags[i] == tag) {
                 index = i;
                 if (index != -1) {
-                    $(btnToken).addClass(b_bold[i])
-                    $(btnToken).addClass(b_tag[i])
+                    /**
+                     * add chosen class to label
+                     * example:
+                     * $(btnToken).addClass(b_tag0[i])
+                     */
+                    {% for cs in css -%}
+                    $(btnToken).addClass(b_tag{{ loop.index0 }}[i])
+                    {% endfor -%}
                     break;
                 }
             }

@@ -1,4 +1,28 @@
 # -*- coding: utf-8 -*-
+# contoh data:
+# entries = [
+#            {
+#                '_id':1,
+#                'text' : [ 'lorem', 'ipsum',  'dolor' ],
+#                'label': [ 'O',     'B-TIME', 'O'     ],
+#                'timestamp': 2018-03-29 15:11:09.130000,
+#                'type': 'bazaar'
+#            },
+#            {
+#                '_id':2,
+#                'text' : [ 'lorem', ',', 'ipsum',   'dolor'   ],
+#                'label': [ 'O',     'O', 'B-PLACE', 'I-PLACE' ],
+#                'timestamp': 2018-05-16 10:40:10.674000,
+#                'type': 'pendidikan'
+#            },
+#            {
+#                '_id': 3,
+#                'text' : [ 'lorem',  'ipsum',  'dolor', 'sit', '?' ],
+#                'label': [ 'B-NAME', 'B-TIME', 'O',     'O',   'O' ],
+#                'timestamp': 2018-05-16 10:41:48.999000,
+#            }
+#        ]
+
 from pymongo import MongoClient, errors 
 from datetime import datetime
 from .adb import AbstractDB
@@ -36,13 +60,11 @@ class MongoDB(AbstractDB):
                 self.mongo = None
                 self._check_status()
             
-    
     def _check_status(self):
         if self.mongo is None:
             print("no mongo")
             raise NameError
             
-    
     def getEntries(self, offset, limit):
         return self.getAll().skip(offset).limit(limit)
     
@@ -76,7 +98,12 @@ class MongoDB(AbstractDB):
         
         
     def putData(self, data):
-        self.mongo[self.db_name][self.dataset].insert_one(data)
+        try:
+            self.mongo[self.db_name][self.dataset].insert_one(data)
+        except errors.DuplicateKeyError:
+            updateData = {'$set': data}
+            self.mongo[self.db_name][self.dataset].update_one(
+                {'_id': data['_id']}, updateData)
         
     def setTimestamp(self, id):
         updateData = { '$set': { 'timestamp':datetime.now() } }
@@ -88,7 +115,6 @@ class MongoDB(AbstractDB):
         except errors.DuplicateKeyError:
             pass
         
-
     def removeTagged(self, id):
         self.mongo['status']['tagged'].remove({"_id":id})
 

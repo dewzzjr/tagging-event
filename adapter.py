@@ -1,15 +1,25 @@
 from nltk.tag import CRFTagger
+from nltk.tokenize import word_tokenize
+
 
 class DataAdapter(object):
     def __init__(self, data=[]):
         self.tagger = CRFTagger()
         self.tagger.set_model_file('model.crf.tagger')
-        
+
         if data.count(True) > 0:
             self.data_tagging, self.data_testing = self.for_tagging_testing(
                 data)
             # print('TAGGING', self.data_tagging)
             # print('TESTING', self.data_testing)
+
+    def tokenize_tag(self, text):
+        text = text.replace('\r', ' | ').replace('\n', ' | ')
+        tokens = word_tokenize(text, preserve_line=True)
+        labels = []
+        for label in self.tag(tokens):
+            labels.append(label[1])
+        return tokens, labels
 
     def for_tagging_testing(self, data):
         # self.data = data
@@ -57,6 +67,9 @@ class DataAdapter(object):
             return self.tagger.tag_sents(self.data_tagging)
         else:
             return 'NoData'
+
+    def tag(self, data):
+        return self.tagger.tag(data)
 
     def evaluate(self):
         if self.data_testing is not None:

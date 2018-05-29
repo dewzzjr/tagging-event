@@ -3,22 +3,22 @@
 # entries = [
 #            {
 #                '_id':1,
-#                'label': [ 'lorem', 'ipsum',  'dolor' ],
-#                'text' : [ 'O',     'B-TIME', 'O'     ],
+#                'text' : [ 'lorem', 'ipsum',  'dolor' ],
+#                'label': [ 'O',     'B-TIME', 'O'     ],
 #                'timestamp': 2018-03-29 15:11:09.130000,
 #                'type': 'bazaar'
 #            },
 #            {
 #                '_id':2,
-#                'label': [ 'lorem', ',', 'ipsum',   'dolor'   ],
-#                'text' : [ 'O',     'O', 'B-PLACE', 'I-PLACE' ],
+#                'text' : [ 'lorem', ',', 'ipsum',   'dolor'   ],
+#                'label': [ 'O',     'O', 'B-PLACE', 'I-PLACE' ],
 #                'timestamp': 2018-05-16 10:40:10.674000,
 #                'type': 'pendidikan'
 #            },
 #            {
 #                '_id': 3,
-#                'label': [ 'lorem',  'ipsum',  'dolor', 'sit', '?' ],
-#                'text' : [ 'B-NAME', 'B-TIME', 'O',     'O',   'O' ],
+#                'text' : [ 'lorem',  'ipsum',  'dolor', 'sit', '?' ],
+#                'label': [ 'B-NAME', 'B-TIME', 'O',     'O',   'O' ],
 #                'timestamp': 2018-05-16 10:41:48.999000,
 #            }
 #        ]
@@ -35,28 +35,33 @@ DEBUG = True
 PER_PAGE = 5
 COUNT_ALL = 0
 
+json_data = open("app.json").read()
+settings = json.loads(json_data)
+
+# available label
+TAGS = settings["labels"]
+DROPDOWN_TAGS = settings["dropdown_class"]
+
+# custom css
+BUTTON_TAGS = settings["button_class"]
+
+# available type
+AVAILABLE_TYPE = settings["available_types"]
+
 app = Flask(__name__)
 app.debug = DEBUG
 
 @app.context_processor
 def color_processor():
     def tag_color(tag=''):
-        tags = [
-                'B-NAME','I-NAME',
-                'B-PLACE','I-PLACE',
-                'B-TIME','I-TIME',
-                'B-INFO','I-INFO'
-              ]
-        b_tag = [
-                  'btn-danger font-weight-bold','btn-danger',
-                  'btn-success font-weight-bold','btn-success',
-                  'btn-warning font-weight-bold','btn-warning',
-                  'btn-info font-weight-bold','btn-info'
-                ]
-        for x in range(0,len(tags)):
-            if tags[x] == tag:
-               return b_tag[x]
-        return 'default'
+        for x in range(0, len(BUTTON_TAGS[0])):
+            if TAGS[x] == tag:
+                ctags = ''
+                for i in range(0, len(BUTTON_TAGS)):
+                    ctags += BUTTON_TAGS[i][x]
+                    ctags += ' '
+                return ctags
+        return 'btn-default'
     
     def url_for_other_page(page):
         args = request.view_args.copy()
@@ -79,7 +84,10 @@ def index(page, limit):
     return render_template(
         'show_entries.html',
         entries=entries,
-        pagination=pagination
+        pagination=pagination,
+        tags=[TAGS, DROPDOWN_TAGS],
+        css=BUTTON_TAGS,
+        available_type=AVAILABLE_TYPE
     )
 
 @app.route("/test", defaults={'page': 1, 'limit': PER_PAGE})
@@ -101,7 +109,10 @@ def test(page, limit):
         'show_test.html',
         entries=[get_entries(page, limit), tested],
         pagination=pagination,
-        accuracy=accuracy
+        accuracy=accuracy,
+        tags=[TAGS, DROPDOWN_TAGS],
+        css=BUTTON_TAGS,
+        available_type=AVAILABLE_TYPE
     )
 
 def get_entries(page, limit):
